@@ -15,20 +15,13 @@ export default class AlbumsDAO {
     };
 
     static async getAlbums() {
-        let cursor;
         try {
-            cursor = await albumConnection.find();
-        } catch (e) {
-            console.error(`Unable to issue find command, ${e}`);
-            return {};
-        }
+            const originalSeries = await albumConnection.find({'Catalogue': {$regex: /DVDCDR\d+/}}).sort({'Catalogue': 1}).toArray();
+            const classicSeries = await albumConnection.find({'Catalogue': {$regex: /DVDCD\d+/}}).sort({'Catalogue': 1}).toArray();
+            const streamSeries = [];
 
-        try {
-            const albumList = await cursor.toArray();
-            const count = await albumConnection.countDocuments({});
-            console.log('albumList', albumList);
-            console.log('Total:', count);
-            return albumList;
+            console.log({originalSeries, classicSeries, streamSeries});
+            return {originalSeries, classicSeries, streamSeries};
         } catch (err) {
             console.error(`Unable to get albums: ${err}`);
         }
