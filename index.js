@@ -2,6 +2,7 @@ import app from './server.js';
 import mongodb from 'mongodb';
 import dotenv from 'dotenv';
 import AlbumsDAO from './dao/albumsDAO.js';
+import TracksDAO from './dao/tracksDAO.js';
 
 dotenv.config({ path: './.env.local' });
 
@@ -22,6 +23,7 @@ MongoClient.connect(
 })
 .then(async client => {
     await AlbumsDAO.injectDB(client);
+    await TracksDAO.injectDB(client);
     app.listen(port, () => {
         console.log(`listening on port ${port}`);
     })
