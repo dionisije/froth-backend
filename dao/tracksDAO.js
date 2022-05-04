@@ -15,9 +15,17 @@ export default class TracksDAO {
 
     static async getTracks(album) {
         try {
+            const output = [];
             const tracks = await tracksConnection.find({'Catalogue': album}).sort({'Order': 1, 'Track': 1}).toArray();
+            const discCount = tracks[0]['Disc Count'];
+            let discNumber = 1;
+            do {
+                const discTracks = tracks.filter(track => track.Disc === discNumber);
+                output.push(discTracks);
+                discNumber++;
+            } while (discNumber <= discCount);
 
-            return tracks;
+            return output;
         } catch (err) {
             console.error(`Unable to get albums: ${err}`);
         }
