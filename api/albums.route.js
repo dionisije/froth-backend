@@ -1,5 +1,6 @@
 import express from 'express'
 import AlbumsCtrl from './albums.controller.js';
+import TracksCtrl from './tracks.controller.js';
 
 const router = express.Router();
 
@@ -9,5 +10,7 @@ router.route('/')
 router.route('/dj')
     .get(AlbumsCtrl.apiGetDjs);
 
-export default router;
+router.route('/tracks/:id')
+    .get(TracksCtrl.apiGetTracks);
 
+export default router;
