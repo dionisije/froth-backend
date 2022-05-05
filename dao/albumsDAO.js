@@ -17,8 +17,8 @@ export default class AlbumsDAO {
 
     static async getAlbums() {
         try {
-            const originalSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCDR\d+/}}).sort({'Catalogue': 1}).toArray();
-            const classicSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCD\d+/}}).sort({'Catalogue': 1}).toArray();
+            const originalSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCDR\d+/}}).sort({'Order': 1}).toArray();
+            const classicSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCD\d+/}}).sort({'Order': 1}).toArray();
             const streamSeries = [];
 
             console.log({originalSeries, classicSeries, streamSeries});
