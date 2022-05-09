@@ -17,12 +17,12 @@ export default class AlbumsDAO {
 
     static async getAlbums() {
         try {
-            const originalSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCDR\d+/}}).sort({'Order': 1}).toArray();
-            const classicSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCD\d+/}}).sort({'Order': 1}).toArray();
-            const streamSeries = [];
+            const originalSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCDR\d+/}}).sort({'Order': -1}).toArray();
+            const classicSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDCD\d+/}}).sort({'Order': -1}).toArray();
+            const streamingSeries = await albumsConnection.find({'Catalogue': {$regex: /DVDPL\d/}}).sort({'Order': -1}).toArray();
 
-            console.log({originalSeries, classicSeries, streamSeries});
-            return {originalSeries, classicSeries, streamSeries};
+            console.log({originalSeries, classicSeries, streamingSeries});
+            return {originalSeries, classicSeries, streamingSeries};
         } catch (err) {
             console.error(`Unable to get albums: ${err}`);
         }
