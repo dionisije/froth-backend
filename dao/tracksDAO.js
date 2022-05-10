@@ -17,7 +17,7 @@ export default class TracksDAO {
         try {
             const output = [];
             const tracks = await tracksConnection.find({'Catalogue': album}).sort({'Order': 1, 'Track': 1}).toArray();
-            const discCount = tracks[0]['Disc Count'];
+            const discCount = tracks[0]['Disc Count'] || 1;
             let discNumber = 1;
             do {
                 const discTracks = tracks.filter(track => track.Disc === discNumber);

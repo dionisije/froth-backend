@@ -28,6 +28,18 @@ export default class AlbumsDAO {
         }
     }
 
+    static async searchAlbums(term) {
+        const searchTerm = new RegExp(term, 'i');
+        try {
+            const results = await albumsConnection.find({Name: {"$regex": searchTerm}}).sort({'Order': 1}).toArray();
+
+            console.log(results);
+            return results;
+        } catch (err) {
+            
+        }
+    }
+
     static async getDjs() {
         let djList = [];
         try {

@@ -3,7 +3,6 @@ import TracksDAO from "../dao/tracksDAO.js";
 export default class TracksController {
     static async apiGetTracks(req, res, next) {
         let ref = req.params.id || {};
-
         try {
             const tracks = await TracksDAO.getTracks(ref);
             if (!tracks) {
