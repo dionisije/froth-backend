@@ -1,4 +1,5 @@
 import AlbumsDAO from "../dao/albumsDAO.js";
+import TracksDAO from "../dao/tracksDAO.js";
 
 export default class AlbumsController {
     static async apiGetAlbums(req, res, next) {
@@ -11,11 +12,12 @@ export default class AlbumsController {
         }
     }
 
-    static async apiSearchAlbums(req, res, next) {
+    static async apiSearch(req, res, next) {
         let term = req.params.term || '';
         try {            
-            const response = await AlbumsDAO.searchAlbums(term);
-            res.json(response);
+            const albumResults = await AlbumsDAO.searchAlbums(term);
+            const tracksResponse = await TracksDAO.searchTracks(term);
+            res.json({albumResults, ...tracksResponse});
         } catch (err) {
             console.error(`api error: ${err}`);
             res.status(500).json({error: err});

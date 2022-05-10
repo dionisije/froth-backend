@@ -14,5 +14,17 @@ export default class TracksController {
             console.error(`api error ${err}`);
             res.status(500).json({error: err});
         }
-    }
-}
+    };
+
+    static async apiSearchTracks(req, res, next) {
+        console.log('tracks?');
+        let term = req.params.term || {};
+        try {
+            const response = await TracksDAO.searchTracks(term);
+            res.json(response);
+        } catch (err) {
+            console.error(`api error ${err}`);
+            res.status(500).json({error: err});
+        }
+    };
+};
