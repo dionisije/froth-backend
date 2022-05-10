@@ -17,7 +17,7 @@ export default class TracksDAO {
         try {
             const output = [];
             const tracks = await tracksConnection.find({'Catalogue': album}).sort({'Order': 1, 'Track': 1}).toArray();
-            const discCount = tracks[0]['Disc Count'];
+            const discCount = tracks[0]['Disc Count'] || 1;
             let discNumber = 1;
             do {
                 const discTracks = tracks.filter(track => track.Disc === discNumber);
@@ -27,7 +27,20 @@ export default class TracksDAO {
 
             return output;
         } catch (err) {
-            console.error(`Unable to get albums: ${err}`);
+            console.error(`Unable to get tracks: ${err}`);
         }
-    }
+    };
+
+    static async searchTracks(term) {
+        const searchTerm = new RegExp(term, 'i');
+        try {
+            const artistResults = await tracksConnection.find({Artist: {"$regex": searchTerm}}).sort({'Order': 1}).toArray();
+            const trackResults = await tracksConnection.find({Name: {"$regex": searchTerm}}).sort({'Order': 1}).toArray();
+
+            console.log({artistResults, trackResults});
+            return {artistResults, trackResults};
+        } catch (err) {
+            console.error(`Unable to get tracks: ${err}`);
+        }
+    };
 }

@@ -10,6 +10,9 @@ router.route('/')
 router.route('/dj')
     .get(AlbumsCtrl.apiGetDjs);
 
+router.route('/search/:term')
+    .get(AlbumsCtrl.apiSearch);
+
 router.route('/tracks/:id')
     .get(TracksCtrl.apiGetTracks);
 
